@@ -11,6 +11,7 @@ services:
 
 script: manage/gen-docs.sh
 
+before_deploy: touch docs/.nojekyll
 deploy:
   provider: pages
   on:
