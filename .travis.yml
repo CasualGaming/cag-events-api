@@ -14,9 +14,8 @@ sudo: required
 script: manage/gen-docs.sh
 
 before_deploy: 
-  - ls -l .
   - sudo chown -R $(id -u):$(id -u) docs
-  - ls -l docs
+  - rm -rf docs/.swagger*
   - touch docs/.nojekyll
 
 deploy:
