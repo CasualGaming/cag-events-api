@@ -4,8 +4,19 @@
 # CaG Events API
 RESTful API specification for [CaG Events](https://github.com/CasualGaming/cag-events) in OpenAPI/Swagger format.
 
-- [Docs](https://casualgaming.github.io/cag-events-api/) (automatically generated)
-- [Swagger Editor](https://editor.swagger.io/) (online editor)
+- [Generated docs](https://casualgaming.github.io/cag-events-api/)
+- [Raw spec](https://raw.githubusercontent.com/CasualGaming/cag-events-api/master/openapi.yaml)
+
+## Tools
+
+- [Swagger Editor](https://editor.swagger.io/): Import the spec file or URL and export as file when done.
+- [Swagger UI](https://petstore.swagger.io/): Enter the spec URL.
+
+## Scripts
+
+- `manage/gen-docs.sh`: Generate web docs.
+- `manage/gen-json.sh`: Generate JSON OpenAPI/Swagger file.
+- `manage/clean.sh`: Clean temporary dirs and files.
 
 ## Guidelines
 

@@ -1,0 +1,26 @@
+# Travis CI config for cag-events-api
+
+# Required env vars:
+# - GITHUB_TOKEN
+
+dist: xenial
+language: minimal
+
+services:
+  - docker
+
+script: manage/gen-docs.sh
+
+deploy:
+  provider: pages
+  on:
+    branch: master
+    type: push
+  skip_cleanup: true
+  repo: CasualGaming/cag-events-api
+  target_branch: gh-pages
+  local_dir: docs
+  github_token: $GITHUB_TOKEN
+  committer_from_gh: true
+  keep_history: false
+  verbose: true
