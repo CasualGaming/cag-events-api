@@ -1,0 +1,568 @@
+swagger: "2.0"
+info:
+  description: "Temp REST Please Ignore"
+  version: "1.0.0"
+  title: "Fearless Fred"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+# host: "petstore.swagger.io"
+# basePath: "/v2"
+tags:
+- name: "teams"
+  description: "Everything about teams"
+  externalDocs:
+    description: "Find out more"
+    url: "http://swagger.io"
+- name: "lans"
+  description: "Everything about LANs"
+- name: "users"
+  description: "Operations about user"
+  externalDocs:
+    description: "Find out more about our store"
+    url: "http://swagger.io"
+schemes:
+- "https"
+paths:
+  /lans:
+    get:
+      tags:
+        - "lans"
+      summary: "Fetch all LANs"
+      responses:
+        200:
+          description: "successsful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Lan"
+    post:
+      tags:
+        - "lans"
+      summary: "Create LAN"
+      consumes:
+        - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "data"
+        required: true
+        schema:
+          $ref: "#/definitions/Lan"
+      responses:
+        200:
+          description: "successful operation"
+        405:
+          description: "invalid input"
+  /lans/{id}:
+    get:
+      tags:
+        - "lans"
+    patch:
+      tags:
+        - "lans"
+    delete:
+      tags:
+        - "lans"
+  /lans/upcoming:
+    get:
+      tags:
+        - "lans"
+  /news:
+    get:
+      tags:
+        - "news"
+      summary: "Fetch all news"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Article"
+    post:
+      tags:
+        - "news"
+      summary: "Create article"
+      consumes:
+        - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "data"
+        required: true
+        schema:
+          $ref: "#/definitions/Article"
+      responses:
+        200:
+          description: "successful operation"
+        405:
+          description: "invalid input"
+  /news/{id}:
+    get:
+      tags:
+        - "news"
+      summary: "Fetch news article"
+      produces:
+        - "application/json"
+      parameters:
+      - in: "path"
+        name: "id"
+        description: "article identifier"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Article data"
+          schema:
+             $ref: "#/definitions/Article"
+    patch:
+      tags:
+        - "news"
+      summary: "Update article"
+      consumes:
+        - "application/json"
+      parameters:
+      - in: "path"
+        name: "id"
+        description: "Article identifier"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Article data"
+        required: true
+        schema:
+          $ref: "#/definitions/Article"
+      responses:
+        200:
+          description: "successful operation"
+    delete:
+      tags:
+        - "news"
+      summary: "Delete article"
+      parameters:
+      - in: "path"
+        name: "id"
+        description: "Article identifier"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+  /lans/{lanid}/sponsor:
+    get:
+      tags:
+        - "lans"
+      summary: "Fetch all sponsors"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Sponsor"
+  /sponsor:
+    get:
+      tags:
+        - "sponsor"
+    post:
+      tags:
+        - "sponsor"
+  /sponsor/{id}:
+    get:
+      tags:
+        - "sponsor"
+      summary: "Fetch sponsor"
+      produces:
+        - "application/json"
+      parameters:
+      - in: "path"
+        name: "id"
+        description: "sponsor identifier"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Sponsor data"
+          schema:
+             $ref: "#/definitions/Sponsor"
+    patch:
+      tags:
+        - "sponsor"
+      summary: "Update article"
+      consumes:
+        - "application/json"
+      parameters:
+      - in: "path"
+        name: "id"
+        description: "Sponsor identifier"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Sponsor data"
+        required: true
+        schema:
+          $ref: "#/definitions/Sponsor"
+      responses:
+        200:
+          description: "successful operation"
+    delete:
+      tags:
+        - "sponsor"
+      summary: "Delete sponsor"
+      parameters:
+      - in: "path"
+        name: "id"
+        description: "Sponsor identifier"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+  /lans/{lanid}/compo:
+    get:
+      tags:
+        - "lans"
+      summary: "Fetch all competitions"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Compo"
+  /lans/{lanid}/news:
+    get:
+      tags:
+        - "lans"
+  /lans/{lanid}/products:
+    get:
+      tags:
+        - "lans"
+  /compo:
+    get:
+      tags:
+        - "compo"
+    post:
+      tags:
+        - "compo"
+  /compo/{id}:
+    get:
+      tags:
+        - "compo"
+      summary: "Fetch competition"
+      produces:
+        - "application/json"
+      parameters:
+      - in: "path"
+        name: "id"
+        description: "Compo identifier"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Compo data"
+          schema:
+             $ref: "#/definitions/Compo"
+    patch:
+      tags:
+        - "compo"
+      summary: "Update competition"
+      consumes:
+        - "application/json"
+      parameters:
+      - in: "path"
+        name: "id"
+        description: "Competition identifier"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Competition data"
+        required: true
+        schema:
+          $ref: "#/definitions/Compo"
+      responses:
+        200:
+          description: "successful operation"
+    delete:
+      tags:
+        - "compo"
+      summary: "Delete competition"
+      parameters:
+      - in: "path"
+        name: "id"
+        description: "Competition identifier"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+  
+  /teams:
+    get:
+      tags:
+        - "teams"
+      summary: "Fetch all teams"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Team"
+    post:
+      tags:
+        - "teams"
+      summary: "Create team"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Data"
+          required: true
+          schema:
+           $ref: "#/definitions/Team"
+      responses:
+        200:
+          description: "successful operation"
+        405:
+          description: "Invalid input"
+  /teams/{id}:
+    get:
+      tags:
+        - "teams"
+      summary: "Fetch team by ID"
+      produces:
+        - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Team ID"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "team data"
+          schema:
+            $ref: "#/definitions/Team"
+    patch:
+      tags:
+        - "teams"
+      summary: "Updates team"
+      consumes:
+        - "application/json"
+      parameters:
+      - in: "path"
+        name: "id"
+        description: "Team ID"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Data"
+        schema:
+          $ref: "#/definitions/Team"
+      responses:
+        200:
+          description: "successful operation"
+    delete:
+      tags:
+      - "teams"
+      summary: "Deletes a team"
+      description: ""
+      operationId: "deletePet"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Pet id to delete"
+        required: true
+        type: "string"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Pet not found"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+  
+  /users:
+    get:
+      tags:
+      - "users"
+      summary: "Fetch all users"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+  /users/{username}:
+    get:
+      tags:
+      - "users"
+      summary: "Get user by user name"
+      description: ""
+      operationId: "getUserByName"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "The name that needs to be fetched. Use user1 for testing. "
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/User"
+        400:
+          description: "Invalid username supplied"
+        404:
+          description: "User not found"
+  /users/{username}/teams:
+    get:
+      tags:  
+      - "users"
+      summary: "Get team by username"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "The name that needs to be fetched. Use user1 for testing. "
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/User"
+        400:
+          description: "Invalid username supplied"
+        404:
+          description: "User not found"
+  /products:
+    get:
+      tags:
+        - "products"
+    post:
+      tags:
+        - "products"
+  /products/{lid}:
+    get:
+      tags:
+        - "products"
+    patch:
+      tags:
+        - "products"
+    delete:
+      tags:
+        - "products"
+  /ticket:
+    get:
+      tags:
+        - "ticket"
+    patch:
+      tags:
+        - "ticket"
+  /order:
+    get:
+      tags:
+        - "order"
+    post:
+      tags:
+        - "order"
+    patch:
+      tags:
+        - "order"
+
+      
+    
+securityDefinitions:
+  petstore_auth:
+    type: "oauth2"
+    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
+    flow: "implicit"
+    scopes:
+      write:pets: "modify pets in your account"
+      read:pets: "read your pets"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+  Compo:
+    type: "object"
+    properties:
+      id: 
+        type: "string"
+      name:
+        type: "string"
+  Sponsor:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      data:
+        type: "string"
+  Article:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      header:
+        type: "string"
+      body:
+        type: "string"
+  Lan:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+  Team:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      members:
+        type: "array"
+        items:
+          $ref: "#/definitions/User"
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      username:
+        type: "string"
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
+      email:
+        type: "string"
+      phone:
+        type: "string"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+basePath: /Casual-Gaming/Fearless_Fred/1.0.0
