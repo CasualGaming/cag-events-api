@@ -11,7 +11,11 @@ services:
 
 script: manage/gen-docs.sh
 
-before_deploy: touch docs/.nojekyll
+before_deploy: 
+  - chmod 777 docs
+  - ls -l docs
+  - touch docs/.nojekyll
+
 deploy:
   provider: pages
   on:
