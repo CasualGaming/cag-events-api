@@ -9,10 +9,13 @@ language: minimal
 services:
   - docker
 
+sudo: required
+
 script: manage/gen-docs.sh
 
 before_deploy: 
-  - chmod 777 docs
+  - ls -l .
+  - sudo chown -R $(id -u):$(id -u) docs
   - ls -l docs
   - touch docs/.nojekyll
 
