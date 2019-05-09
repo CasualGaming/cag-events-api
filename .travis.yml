@@ -11,23 +11,43 @@ services:
 
 sudo: required
 
-script: manage/gen-docs.sh
+stages:
+  - name: Validate YAML
+  - name: Build
+    if: type != push OR branch != master
+  - name: Build and Deploy
+    if: type = push AND branch = master
 
-before_deploy: 
-  - sudo chown -R $(id -u):$(id -u) docs
-  - rm -rf docs/.swagger*
-  - touch docs/.nojekyll
+jobs:
+  include:
+    # Stage: Validate YAML
+    - stage: Validate YAML
+      name: Validate YAML
+      install: pip install yamllint
+      script: yamllint openapi.yaml
 
-deploy:
-  provider: pages
-  on:
-    branch: master
-    type: push
-  skip_cleanup: true
-  repo: CasualGaming/cag-events-api
-  target_branch: gh-pages
-  local_dir: docs
-  github_token: $GITHUB_TOKEN
-  committer_from_gh: true
-  keep_history: false
-  verbose: true
+    # Stage: Build
+    - stage: Build
+      name: Build
+      script: manage/gen-docs.sh
+
+    # Stage: Build and deploy
+    - stage: Build and deploy
+      name: Build and deploy
+      script: manage/gen-docs.sh
+      before_deploy: 
+        - sudo chown -R $(id -u):$(id -u) docs
+        - touch docs/.nojekyll
+      deploy:
+        provider: pages
+        on:
+          branch: master
+          type: push
+        skip_cleanup: true
+        repo: CasualGaming/cag-events-api
+        target_branch: gh-pages
+        local_dir: docs
+        github_token: $GITHUB_TOKEN
+        committer_from_gh: true
+        keep_history: false
+        verbose: true

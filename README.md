@@ -2,20 +2,22 @@
 [![Travis CI](https://travis-ci.com/CasualGaming/cag-events-api.svg?branch=master)](https://travis-ci.com/CasualGaming/cag-events-api)
 
 # CaG Events API
-RESTful API specification for [CaG Events](https://github.com/CasualGaming/cag-events) in OpenAPI/Swagger format.
+RESTful API specification for [CaG Events](https://github.com/CasualGaming/cag-events) in OpenAPI 3 format.
 
 - [Generated docs](https://casualgaming.github.io/cag-events-api/)
 - [Raw spec](https://raw.githubusercontent.com/CasualGaming/cag-events-api/master/openapi.yaml)
 
 ## Tools
 
-- [Swagger Editor](https://editor.swagger.io/): Import the spec file or URL and export as file when done.
-- [Swagger UI](https://petstore.swagger.io/): Enter the spec URL.
+- [openapi-list](https://marketplace.visualstudio.com/items?itemName=mermade.openapi-lint): VS Code plugin for linting OpenAPI 3.0.
+- Swagger Editor (local): A Swagger 2 and OpenAPI 3 online web editor with auto complete and preview.
 
 ## Scripts
 
-- `manage/gen-docs.sh`: Generate web docs.
-- `manage/gen-json.sh`: Generate JSON OpenAPI/Swagger file.
+- `manage/editor.sh`: Start Swagger Editor web server. The spec file must be imported and exported manually.
+- `manage/validate-yaml.sh`: Validate the YAML file.
+- `manage/gen-docs.sh`: Generate web docs locally.
+- `manage/gen-json.sh`: Generate JSON OpenAPI/Swagger file locally.
 - `manage/clean.sh`: Clean temporary dirs and files.
 
 ## Guidelines

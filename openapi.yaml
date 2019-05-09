@@ -1,568 +1,579 @@
-swagger: "2.0"
+---
+openapi: 3.0.0
 info:
-  description: "Temp REST Please Ignore"
-  version: "1.0.0"
-  title: "Fearless Fred"
-  termsOfService: "http://swagger.io/terms/"
-  contact:
-    email: "apiteam@swagger.io"
+  title: CaG Events API
+  description: API between CaG Events front-end and back-end.
+  version: 1.0.0-SNAPSHOT
   license:
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-# host: "petstore.swagger.io"
-# basePath: "/v2"
-tags:
-- name: "teams"
-  description: "Everything about teams"
-  externalDocs:
-    description: "Find out more"
-    url: "http://swagger.io"
-- name: "lans"
-  description: "Everything about LANs"
-- name: "users"
-  description: "Operations about user"
-  externalDocs:
-    description: "Find out more about our store"
-    url: "http://swagger.io"
-schemes:
-- "https"
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+  contact:
+    url: https://github.com/CasualGaming/cag-events-api
+    email: dev@casualgaming.no
+
 paths:
   /lans:
     get:
       tags:
-        - "lans"
-      summary: "Fetch all LANs"
+        - lans
+      summary: Fetch all LANs
       responses:
-        200:
-          description: "successsful operation"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Lan"
+        "200":
+          description: Success
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Lan"
     post:
       tags:
-        - "lans"
-      summary: "Create LAN"
-      consumes:
-        - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "data"
+        - lans
+      summary: Create LAN
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Lan"
+        description: data
+        required: true
+      responses:
+        "200":
+          description: Success
+  "/lans/{id}":
+    parameters:
+      - in: path
+        name: id
+        description: ID of LAN
         required: true
         schema:
-          $ref: "#/definitions/Lan"
-      responses:
-        200:
-          description: "successful operation"
-        405:
-          description: "invalid input"
-  /lans/{id}:
+          type: integer
+          format: int64
     get:
       tags:
-        - "lans"
+        - lans
+      responses:
+        "200":
+          description: Success
     patch:
       tags:
-        - "lans"
+        - lans
+      responses:
+        "200":
+          description: Success
     delete:
       tags:
-        - "lans"
+        - lans
+      responses:
+        "200":
+          description: Success
   /lans/upcoming:
     get:
       tags:
-        - "lans"
+        - lans
+      responses:
+        "200":
+          description: Success
   /news:
     get:
       tags:
-        - "news"
-      summary: "Fetch all news"
+        - news
+      summary: Fetch all news
       responses:
-        200:
-          description: "successful operation"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Article"
+        "200":
+          description: Success
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Article"
     post:
       tags:
-        - "news"
-      summary: "Create article"
-      consumes:
-        - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "data"
+        - news
+      summary: Create article
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Article"
+        description: data
+        required: true
+      responses:
+        "200":
+          description: Success
+  "/news/{id}":
+    parameters:
+      - in: path
+        name: id
+        description: ID of article
         required: true
         schema:
-          $ref: "#/definitions/Article"
-      responses:
-        200:
-          description: "successful operation"
-        405:
-          description: "invalid input"
-  /news/{id}:
+          type: integer
+          format: int64
     get:
       tags:
-        - "news"
-      summary: "Fetch news article"
-      produces:
-        - "application/json"
-      parameters:
-      - in: "path"
-        name: "id"
-        description: "article identifier"
-        required: true
-        type: "string"
+        - news
+      summary: Fetch news article
       responses:
-        200:
-          description: "Article data"
-          schema:
-             $ref: "#/definitions/Article"
+        "200":
+          description: Article data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
     patch:
       tags:
-        - "news"
-      summary: "Update article"
-      consumes:
-        - "application/json"
-      parameters:
-      - in: "path"
-        name: "id"
-        description: "Article identifier"
+        - news
+      summary: Update article
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Article"
+        description: Article data
         required: true
-        type: "string"
-      - in: "body"
-        name: "body"
-        description: "Article data"
-        required: true
-        schema:
-          $ref: "#/definitions/Article"
       responses:
-        200:
-          description: "successful operation"
+        "200":
+          description: Success
     delete:
       tags:
-        - "news"
-      summary: "Delete article"
-      parameters:
-      - in: "path"
-        name: "id"
-        description: "Article identifier"
-        required: true
-        type: "string"
+        - news
+      summary: Delete article
       responses:
-        200:
-          description: "successful operation"
-  /lans/{lanid}/sponsor:
+        "200":
+          description: Success
+  "/lans/{id}/sponsor":
+    parameters:
+      - in: path
+        name: id
+        description: ID of LAN
+        required: true
+        schema:
+          type: integer
+          format: int64
     get:
       tags:
-        - "lans"
-      summary: "Fetch all sponsors"
+        - lans
+      summary: Fetch all sponsors
       responses:
-        200:
-          description: "successful operation"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Sponsor"
+        "200":
+          description: Success
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Sponsor"
   /sponsor:
     get:
       tags:
-        - "sponsor"
+        - sponsor
+      responses:
+        "200":
+          description: Success
     post:
       tags:
-        - "sponsor"
-  /sponsor/{id}:
-    get:
-      tags:
-        - "sponsor"
-      summary: "Fetch sponsor"
-      produces:
-        - "application/json"
-      parameters:
-      - in: "path"
-        name: "id"
-        description: "sponsor identifier"
-        required: true
-        type: "string"
+        - sponsor
       responses:
-        200:
-          description: "Sponsor data"
-          schema:
-             $ref: "#/definitions/Sponsor"
-    patch:
-      tags:
-        - "sponsor"
-      summary: "Update article"
-      consumes:
-        - "application/json"
-      parameters:
-      - in: "path"
-        name: "id"
-        description: "Sponsor identifier"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "body"
-        description: "Sponsor data"
+        "200":
+          description: Success
+  "/sponsor/{id}":
+    parameters:
+      - in: path
+        name: id
+        description: ID of sponsor
         required: true
         schema:
-          $ref: "#/definitions/Sponsor"
+          type: integer
+          format: int64
+    get:
+      tags:
+        - sponsor
+      summary: Fetch sponsor
       responses:
-        200:
-          description: "successful operation"
+        "200":
+          description: Sponsor data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Sponsor"
+    patch:
+      tags:
+        - sponsor
+      summary: Update article
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Sponsor"
+        description: Sponsor data
+        required: true
+      responses:
+        "200":
+          description: Success
     delete:
       tags:
-        - "sponsor"
-      summary: "Delete sponsor"
-      parameters:
-      - in: "path"
-        name: "id"
-        description: "Sponsor identifier"
+        - sponsor
+      summary: Delete sponsor
+      responses:
+        "200":
+          description: Success
+  "/lans/{id}/compo":
+    parameters:
+      - in: path
+        name: id
+        description: ID of LAN
         required: true
-        type: "string"
+        schema:
+          type: integer
+          format: int64
+    get:
+      tags:
+        - lans
+      summary: Fetch all competitions
       responses:
-        200:
-          description: "successful operation"
-  /lans/{lanid}/compo:
+        "200":
+          description: Success
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Compo"
+  "/lans/{id}/news":
+    parameters:
+      - in: path
+        name: id
+        description: ID of LAN
+        required: true
+        schema:
+          type: integer
+          format: int64
     get:
       tags:
-        - "lans"
-      summary: "Fetch all competitions"
+        - lans
       responses:
-        200:
-          description: "successful operation"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Compo"
-  /lans/{lanid}/news:
+        "200":
+          description: Success
+  "/lans/{id}/products":
+    parameters:
+      - in: path
+        name: id
+        description: ID of LAN
+        required: true
+        schema:
+          type: integer
+          format: int64
     get:
       tags:
-        - "lans"
-  /lans/{lanid}/products:
-    get:
-      tags:
-        - "lans"
+        - lans
+      responses:
+        "200":
+          description: Success
   /compo:
     get:
       tags:
-        - "compo"
+        - compo
+      responses:
+        "200":
+          description: Success
     post:
       tags:
-        - "compo"
-  /compo/{id}:
-    get:
-      tags:
-        - "compo"
-      summary: "Fetch competition"
-      produces:
-        - "application/json"
-      parameters:
-      - in: "path"
-        name: "id"
-        description: "Compo identifier"
-        required: true
-        type: "string"
+        - compo
       responses:
-        200:
-          description: "Compo data"
-          schema:
-             $ref: "#/definitions/Compo"
-    patch:
-      tags:
-        - "compo"
-      summary: "Update competition"
-      consumes:
-        - "application/json"
-      parameters:
-      - in: "path"
-        name: "id"
-        description: "Competition identifier"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "body"
-        description: "Competition data"
+        "200":
+          description: Success
+  "/compo/{id}":
+    parameters:
+      - in: path
+        name: id
+        description: ID of compo
         required: true
         schema:
-          $ref: "#/definitions/Compo"
+          type: integer
+          format: int64
+    get:
+      tags:
+        - compo
+      summary: Fetch competition
       responses:
-        200:
-          description: "successful operation"
+        "200":
+          description: Compo data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Compo"
+    patch:
+      tags:
+        - compo
+      summary: Update competition
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Compo"
+        description: Competition data
+        required: true
+      responses:
+        "200":
+          description: Success
     delete:
       tags:
-        - "compo"
-      summary: "Delete competition"
-      parameters:
-      - in: "path"
-        name: "id"
-        description: "Competition identifier"
-        required: true
-        type: "string"
+        - compo
+      summary: Delete competition
       responses:
-        200:
-          description: "successful operation"
-  
+        "200":
+          description: Success
   /teams:
     get:
       tags:
-        - "teams"
-      summary: "Fetch all teams"
+        - teams
+      summary: Fetch all teams
       responses:
-        200:
-          description: "successful operation"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Team"
+        "200":
+          description: Success
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Team"
     post:
       tags:
-        - "teams"
-      summary: "Create team"
-      consumes:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Data"
-          required: true
-          schema:
-           $ref: "#/definitions/Team"
+        - teams
+      summary: Create team
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Team"
+        description: Data
+        required: true
       responses:
-        200:
-          description: "successful operation"
-        405:
-          description: "Invalid input"
-  /teams/{id}:
+        "200":
+          description: Success
+  "/teams/{id}":
+    parameters:
+      - in: path
+        name: id
+        description: ID of team
+        required: true
+        schema:
+          type: integer
+          format: int64
     get:
       tags:
-        - "teams"
-      summary: "Fetch team by ID"
-      produces:
-        - "application/json"
-      parameters:
-      - name: "id"
-        in: "path"
-        description: "Team ID"
-        required: true
-        type: "string"
+        - teams
+      summary: Fetch team by ID
       responses:
-        200:
-          description: "team data"
-          schema:
-            $ref: "#/definitions/Team"
+        "200":
+          description: team data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Team"
     patch:
       tags:
-        - "teams"
-      summary: "Updates team"
-      consumes:
-        - "application/json"
-      parameters:
-      - in: "path"
-        name: "id"
-        description: "Team ID"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "body"
-        description: "Data"
-        schema:
-          $ref: "#/definitions/Team"
+        - teams
+      summary: Updates team
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Team"
+        description: Data
       responses:
-        200:
-          description: "successful operation"
+        "200":
+          description: Success
     delete:
       tags:
-      - "teams"
-      summary: "Deletes a team"
-      description: ""
-      operationId: "deletePet"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "id"
-        in: "path"
-        description: "Pet id to delete"
-        required: true
-        type: "string"
+        - teams
+      summary: Deletes a team
       responses:
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Pet not found"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  
+        "200":
+          description: Success
   /users:
     get:
       tags:
-      - "users"
-      summary: "Fetch all users"
-      produces:
-      - "application/json"
+        - users
+      summary: Fetch all users
       responses:
-        200:
-          description: "successful operation"
-  /users/{username}:
+        "200":
+          description: Success
+  "/users/{username}":
+    parameters:
+      - in: path
+        name: username
+        description: The name that needs to be fetched.
+        required: true
+        schema:
+          type: string
     get:
       tags:
-      - "users"
-      summary: "Get user by user name"
-      description: ""
-      operationId: "getUserByName"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - name: "username"
-        in: "path"
-        description: "The name that needs to be fetched. Use user1 for testing. "
-        required: true
-        type: "string"
+        - users
+      summary: Get user by user name
       responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/User"
-        400:
-          description: "Invalid username supplied"
-        404:
-          description: "User not found"
-  /users/{username}/teams:
+        "200":
+          description: Success
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/User"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+  "/users/{username}/teams":
+    parameters:
+      - name: username
+        in: path
+        description: The name that needs to be fetched.
+        required: true
+        schema:
+          type: string
     get:
-      tags:  
-      - "users"
-      summary: "Get team by username"
-      description: ""
-      produces:
-      - "application/json"
-      parameters:
-      - name: "username"
-        in: "path"
-        description: "The name that needs to be fetched. Use user1 for testing. "
-        required: true
-        type: "string"
+      tags:
+        - users
+      summary: Get team by username
       responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/User"
-        400:
-          description: "Invalid username supplied"
-        404:
-          description: "User not found"
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
   /products:
     get:
       tags:
-        - "products"
+        - products
+      responses:
+        "200":
+          description: Success
     post:
       tags:
-        - "products"
-  /products/{lid}:
+        - products
+      responses:
+        "200":
+          description: Success
+  "/products/{id}":
+    parameters:
+      - in: path
+        name: id
+        description: ID of product
+        required: true
+        schema:
+          type: integer
+          format: int64
     get:
       tags:
-        - "products"
+        - products
+      responses:
+        "200":
+          description: Success
     patch:
       tags:
-        - "products"
+        - products
+      responses:
+        "200":
+          description: Success
     delete:
       tags:
-        - "products"
+        - products
+      responses:
+        "200":
+          description: Success
   /ticket:
     get:
       tags:
-        - "ticket"
+        - ticket
+      responses:
+        "200":
+          description: Success
     patch:
       tags:
-        - "ticket"
+        - ticket
+      responses:
+        "200":
+          description: Success
   /order:
     get:
       tags:
-        - "order"
+        - order
+      responses:
+        "200":
+          description: Success
     post:
       tags:
-        - "order"
+        - order
+      responses:
+        "200":
+          description: Success
     patch:
       tags:
-        - "order"
+        - order
+      responses:
+        "200":
+          description: Success
 
-      
-    
-securityDefinitions:
-  petstore_auth:
-    type: "oauth2"
-    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
-    flow: "implicit"
-    scopes:
-      write:pets: "modify pets in your account"
-      read:pets: "read your pets"
-  api_key:
-    type: "apiKey"
-    name: "api_key"
-    in: "header"
-definitions:
-  Compo:
-    type: "object"
-    properties:
-      id: 
-        type: "string"
-      name:
-        type: "string"
-  Sponsor:
-    type: "object"
-    properties:
-      id:
-        type: "string"
-      data:
-        type: "string"
-  Article:
-    type: "object"
-    properties:
-      id:
-        type: "string"
-      header:
-        type: "string"
-      body:
-        type: "string"
-  Lan:
-    type: "object"
-    properties:
-      id:
-        type: "string"
-      name:
-        type: "string"
-  Team:
-    type: "object"
-    properties:
-      id:
-        type: "string"
-      name:
-        type: "string"
-      members:
-        type: "array"
-        items:
-          $ref: "#/definitions/User"
-  User:
-    type: "object"
-    properties:
-      id:
-        type: "string"
-      username:
-        type: "string"
-      firstName:
-        type: "string"
-      lastName:
-        type: "string"
-      email:
-        type: "string"
-      phone:
-        type: "string"
-externalDocs:
-  description: "Find out more about Swagger"
-  url: "http://swagger.io"
-# Added by API Auto Mocking Plugin
-host: virtserver.swaggerhub.com
-basePath: /Casual-Gaming/Fearless_Fred/1.0.0
+components:
+  securitySchemes:
+    oidc:
+      type: openIdConnect
+      openIdConnectUrl: https://localhost
+  schemas:
+    Compo:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    Sponsor:
+      type: object
+      properties:
+        id:
+          type: string
+        data:
+          type: string
+    Article:
+      type: object
+      properties:
+        id:
+          type: string
+        header:
+          type: string
+        body:
+          type: string
+    Lan:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    Team:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        members:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
