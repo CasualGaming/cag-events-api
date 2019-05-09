@@ -13,10 +13,3 @@ rm -rf $GEN_OUT
 # Has debug mode active, so redirect STDOUT to /dev/null
 docker run --rm -v ${PWD}:/local $IMAGE \
         generate -v -l $GEN_LANG -i /local/$GEN_IN -o /local/$GEN_OUT > /dev/null
-
-# Remove extra stuff
-rm -rf $GEN_OUT/.swagger*
-rm -rf $GEN_OUT/README.md
-
-# Add license
-cp LICENSE $GEN_OUT/

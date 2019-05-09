@@ -39,6 +39,8 @@ jobs:
       script: manage/gen-docs.sh
       before_deploy: 
         - sudo chown -R $(id -u):$(id -u) docs
+        - rm -rf docs/.swagger*
+        - cp LICENSE docs/
         - touch docs/.nojekyll
       deploy:
         provider: pages
