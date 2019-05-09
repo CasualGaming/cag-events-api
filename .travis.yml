@@ -23,7 +23,7 @@ jobs:
     # Stage: Validate YAML
     - stage: Validate YAML
       name: Validate YAML
-      install: pip install yamllint
+      install: pip3 install --user yamllint
       script: yamllint openapi.yaml
 
     # Stage: Build
