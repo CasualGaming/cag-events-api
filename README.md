@@ -15,7 +15,7 @@ RESTful API specification for [CaG Events](https://github.com/CasualGaming/cag-e
 ## Scripts
 
 - `manage/editor.sh`: Start Swagger/OpenAPI editor web server (using Swagger Editor). The spec file must be imported and exported manually.
-- `manage/validate-yaml.sh`: Validate the YAML file (using yamllint in Python 3 virtualenv).
+- `manage/validate-yaml.sh`: Validate the YAML file formatting/linting (using yamllint in Python 3 virtualenv).
 - `manage/gen-docs.sh`: Generate web docs locally (using Swagger Codegen).
 - `manage/gen-json.sh`: Generate JSON OpenAPI/Swagger file locally (using Swagger Codegen).
 - `manage/clean.sh`: Clean temporary dirs and files.
