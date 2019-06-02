@@ -5,7 +5,7 @@
 RESTful API specification for [CaG Events](https://github.com/CasualGaming/cag-events) in OpenAPI 3 format.
 
 - [Specification](https://raw.githubusercontent.com/CasualGaming/cag-events-api/master/openapi.yaml)
-- [Documentation](https://casualgaming.github.io/cag-events-api/)
+- [Documentation](https://casualgaming.dev/cag-events-api/)
 
 ## Tools
 
