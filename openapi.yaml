@@ -12,11 +12,11 @@ info:
     email: dev@casualgaming.no
 
 paths:
-  /lans:
+  /event:
     get:
       tags:
-        - lans
-      summary: Fetch all LANs
+        - event
+      summary: Fetch all Events
       responses:
         "200":
           description: Success
@@ -25,52 +25,52 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Lan"
+                  $ref: "#/components/schemas/Event"
     post:
       tags:
-        - lans
-      summary: Create LAN
+        - event
+      summary: Create Event
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Lan"
+              $ref: "#/components/schemas/Event"
         description: data
         required: true
       responses:
         "200":
           description: Success
-  "/lans/{id}":
+  "/event/{id}":
     parameters:
       - in: path
         name: id
-        description: ID of LAN
+        description: ID of Event
         required: true
         schema:
           type: integer
           format: int64
     get:
       tags:
-        - lans
+        - event
       responses:
         "200":
           description: Success
     patch:
       tags:
-        - lans
+        - event
       responses:
         "200":
           description: Success
     delete:
       tags:
-        - lans
+        - event
       responses:
         "200":
           description: Success
-  /lans/upcoming:
+  /event/upcoming:
     get:
       tags:
-        - lans
+        - event
       responses:
         "200":
           description: Success
@@ -143,18 +143,18 @@ paths:
       responses:
         "200":
           description: Success
-  "/lans/{id}/sponsor":
+  "/event/{id}/sponsor":
     parameters:
       - in: path
         name: id
-        description: ID of LAN
+        description: ID of Event
         required: true
         schema:
           type: integer
           format: int64
     get:
       tags:
-        - lans
+        - event
       summary: Fetch all sponsors
       responses:
         "200":
@@ -219,18 +219,18 @@ paths:
       responses:
         "200":
           description: Success
-  "/lans/{id}/compo":
+  "/event/{id}/compo":
     parameters:
       - in: path
         name: id
-        description: ID of LAN
+        description: ID of Event
         required: true
         schema:
           type: integer
           format: int64
     get:
       tags:
-        - lans
+        - event
       summary: Fetch all competitions
       responses:
         "200":
@@ -241,33 +241,33 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Compo"
-  "/lans/{id}/news":
+  "/event/{id}/news":
     parameters:
       - in: path
         name: id
-        description: ID of LAN
+        description: ID of Event
         required: true
         schema:
           type: integer
           format: int64
     get:
       tags:
-        - lans
+        - event
       responses:
         "200":
           description: Success
-  "/lans/{id}/products":
+  "/event/{id}/products":
     parameters:
       - in: path
         name: id
-        description: ID of LAN
+        description: ID of Event
         required: true
         schema:
           type: integer
           format: int64
     get:
       tags:
-        - lans
+        - event
       responses:
         "200":
           description: Success
@@ -486,12 +486,46 @@ paths:
     get:
       tags:
         - ticket
+      summary: "Get all tickets owned by the user"
+      responses:
+        "200":
+          description: Success
+  "/ticket/{id}":
+    parameters:
+      - in: path
+        name: id
+        description: ID of ticket
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      tags:
+        - ticket
+      summary: "Get a ticket"
       responses:
         "200":
           description: Success
     patch:
       tags:
         - ticket
+      summary: "Change a ticket"
+      responses:
+        "200":
+          description: Success
+  "/ticket/{id}/regen-activation-code":
+    parameters:
+      - in: path
+        name: id
+        description: ID of ticket
+        required: true
+        schema:
+          type: integer
+          format: int64
+    post:
+      tags:
+        - ticket
+      summary: "Regenerate the activation code for an unassigned ticket"
       responses:
         "200":
           description: Success
@@ -544,7 +578,7 @@ components:
           type: string
         body:
           type: string
-    Lan:
+    Event:
       type: object
       properties:
         id:
