@@ -26,3 +26,6 @@ RESTful API specification for [CaG Events](https://github.com/CasualGaming/cag-e
 - All changes must be specified in the `CHANGELOG.md`.
 - When ready to release, bump the version in `openapi.yaml` and `CHANGELOG.md` and add a new empty section in `CHANGELOG.md`.
 - Release a new version using GitHub Releases with "CaG Events API vX.Y.Z" as the title and the relevant changelog section as the description.
+
+## License
+This project is licensed under GPLv3, see LICENSE for the full license text.
