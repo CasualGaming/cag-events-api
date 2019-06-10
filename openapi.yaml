@@ -5,46 +5,162 @@ info:
   description: API between CaG Events front-end and back-end.
   version: 1.0.0-SNAPSHOT
   license:
-    name: MIT License
-    url: https://opensource.org/licenses/MIT
+    name: GPLv3
+    url: https://www.gnu.org/licenses/gpl-3.0.en.html
   contact:
-    url: https://github.com/CasualGaming/cag-events-api
+    url: https://github.com/CasualGaming/cag-events
     email: dev@casualgaming.no
 
 paths:
-  /event:
+  "/user/all":
     get:
       tags:
-        - event
-      summary: Fetch all Events
+        - user
+      summary: Get all users
       responses:
         "200":
           description: Success
           content:
-            "*/*":
+            "application/json":
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Event"
+                  type: integer
+                  format: uuid
+
+  "/user/{uuid}":
+    parameters:
+      - in: path
+        name: uuid
+        description: User UUID
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - user
+      summary: Get a user
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/User"
+  "/user/{uuid}/teams":
+    parameters:
+      - name: uuid
+        in: path
+        description: User UUID
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - user
+        - team
+      summary: Get all teams for a user
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: integer
+                format: int64
+  "/user/{uuid}/tickets":
+    parameters:
+      - name: uuid
+        in: path
+        description: User UUID
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - user
+        - ticket
+      summary: Get all tickets for a user
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: integer
+                format: int64
+  "/event":
     post:
       tags:
         - event
-      summary: Create Event
+      summary: Create an event
       requestBody:
         content:
-          application/json:
+          "application/json":
             schema:
               $ref: "#/components/schemas/Event"
-        description: data
         required: true
       responses:
         "200":
           description: Success
+          content:
+            "application/json":
+              schema:
+                type: integer
+                format: int64
+  "/event/all":
+    get:
+      tags:
+        - event
+      summary: Get all events
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
+  "/event/current":
+    get:
+      tags:
+        - event
+      summary: Get current events
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
+  "/event/upcoming":
+    get:
+      tags:
+        - event
+      summary: Get upcoming events
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
   "/event/{id}":
     parameters:
       - in: path
         name: id
-        description: ID of Event
+        description: Event ID
         required: true
         schema:
           type: integer
@@ -52,137 +168,243 @@ paths:
     get:
       tags:
         - event
+      summary: Get an event
       responses:
         "200":
           description: Success
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/Event"
     patch:
       tags:
         - event
+      summary: Update an event
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/Event"
+        required: true
       responses:
         "200":
           description: Success
     delete:
       tags:
         - event
+      summary: Delete an event
       responses:
         "200":
           description: Success
-  /event/upcoming:
-    get:
-      tags:
-        - event
-      responses:
-        "200":
-          description: Success
-  /news:
-    get:
-      tags:
-        - news
-      summary: Fetch all news
-      responses:
-        "200":
-          description: Success
-          content:
-            "*/*":
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Article"
-    post:
-      tags:
-        - news
-      summary: Create article
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Article"
-        description: data
-        required: true
-      responses:
-        "200":
-          description: Success
-  "/news/{id}":
+  "/event/{id}/competitions":
     parameters:
       - in: path
         name: id
-        description: ID of article
+        description: Event ID
         required: true
         schema:
           type: integer
           format: int64
     get:
       tags:
-        - news
-      summary: Fetch news article
+        - event
+        - competition
+      summary: Get all competitions for an event
       responses:
         "200":
-          description: Article data
+          description: Success
           content:
-            application/json:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
+  "/event/{id}/articles":
+    parameters:
+      - in: path
+        name: id
+        description: Event ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      tags:
+        - event
+        - article
+      summary: Get all articles for an event
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
+  "/event/{id}/products":
+    parameters:
+      - in: path
+        name: id
+        description: Event ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      tags:
+        - event
+        - product
+      summary: Get all products for an event
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
+  "/event/{id}/sponsors":
+    parameters:
+      - in: path
+        name: id
+        description: Event ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      tags:
+        - event
+        - sponsor
+      summary: Get all sponsors for an event
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
+  "/article":
+    post:
+      tags:
+        - article
+      summary: Create an article
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/Article"
+        required: true
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: integer
+                format: int64
+  "/article/all":
+    get:
+      tags:
+        - article
+      summary: Get all articles
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
+  "/article/{id}":
+    parameters:
+      - in: path
+        name: id
+        description: Article ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      tags:
+        - article
+      summary: Get an article
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
               schema:
                 $ref: "#/components/schemas/Article"
     patch:
       tags:
-        - news
-      summary: Update article
+        - article
+      summary: Update an article
       requestBody:
         content:
-          application/json:
+          "application/json":
             schema:
               $ref: "#/components/schemas/Article"
-        description: Article data
         required: true
       responses:
         "200":
           description: Success
     delete:
       tags:
-        - news
-      summary: Delete article
+        - article
+      summary: Delete an article
       responses:
         "200":
           description: Success
-  "/event/{id}/sponsor":
-    parameters:
-      - in: path
-        name: id
-        description: ID of Event
-        required: true
-        schema:
-          type: integer
-          format: int64
-    get:
+  "/sponsor":
+    post:
       tags:
-        - event
-      summary: Fetch all sponsors
+        - sponsor
+      summary: Create a sponsor
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/Sponsor"
+        required: true
       responses:
         "200":
           description: Success
           content:
-            "*/*":
+            "application/json":
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Sponsor"
-  /sponsor:
+                type: integer
+                format: int64
+  "/sponsor/all":
     get:
       tags:
         - sponsor
+      summary: Get all sponsors
       responses:
         "200":
           description: Success
-    post:
-      tags:
-        - sponsor
-      responses:
-        "200":
-          description: Success
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
   "/sponsor/{id}":
     parameters:
       - in: path
         name: id
-        description: ID of sponsor
+        description: Sponsor ID
         required: true
         schema:
           type: integer
@@ -190,24 +412,23 @@ paths:
     get:
       tags:
         - sponsor
-      summary: Fetch sponsor
+      summary: Get a sponsor
       responses:
         "200":
-          description: Sponsor data
+          description: Success
           content:
-            application/json:
+            "application/json":
               schema:
                 $ref: "#/components/schemas/Sponsor"
     patch:
       tags:
         - sponsor
-      summary: Update article
+      summary: Update a sponsor
       requestBody:
         content:
-          application/json:
+          "application/json":
             schema:
               $ref: "#/components/schemas/Sponsor"
-        description: Sponsor data
         required: true
       responses:
         "200":
@@ -215,286 +436,294 @@ paths:
     delete:
       tags:
         - sponsor
-      summary: Delete sponsor
+      summary: Delete a sponsor
       responses:
         "200":
           description: Success
-  "/event/{id}/compo":
-    parameters:
-      - in: path
-        name: id
-        description: ID of Event
-        required: true
-        schema:
-          type: integer
-          format: int64
-    get:
-      tags:
-        - event
-      summary: Fetch all competitions
-      responses:
-        "200":
-          description: Success
-          content:
-            "*/*":
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Compo"
-  "/event/{id}/news":
-    parameters:
-      - in: path
-        name: id
-        description: ID of Event
-        required: true
-        schema:
-          type: integer
-          format: int64
-    get:
-      tags:
-        - event
-      responses:
-        "200":
-          description: Success
-  "/event/{id}/products":
-    parameters:
-      - in: path
-        name: id
-        description: ID of Event
-        required: true
-        schema:
-          type: integer
-          format: int64
-    get:
-      tags:
-        - event
-      responses:
-        "200":
-          description: Success
-  /compo:
-    get:
-      tags:
-        - compo
-      responses:
-        "200":
-          description: Success
+  "/team":
     post:
       tags:
-        - compo
-      responses:
-        "200":
-          description: Success
-  "/compo/{id}":
-    parameters:
-      - in: path
-        name: id
-        description: ID of compo
-        required: true
-        schema:
-          type: integer
-          format: int64
-    get:
-      tags:
-        - compo
-      summary: Fetch competition
-      responses:
-        "200":
-          description: Compo data
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Compo"
-    patch:
-      tags:
-        - compo
-      summary: Update competition
+        - team
+      summary: Create a team
       requestBody:
         content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Compo"
-        description: Competition data
-        required: true
-      responses:
-        "200":
-          description: Success
-    delete:
-      tags:
-        - compo
-      summary: Delete competition
-      responses:
-        "200":
-          description: Success
-  /teams:
-    get:
-      tags:
-        - teams
-      summary: Fetch all teams
-      responses:
-        "200":
-          description: Success
-          content:
-            "*/*":
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Team"
-    post:
-      tags:
-        - teams
-      summary: Create team
-      requestBody:
-        content:
-          application/json:
+          "application/json":
             schema:
               $ref: "#/components/schemas/Team"
-        description: Data
         required: true
       responses:
         "200":
           description: Success
-  "/teams/{id}":
+          content:
+            "application/json":
+              schema:
+                type: integer
+                format: int64
+  "/team/all":
+    get:
+      tags:
+        - team
+      summary: Get all teams
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
+  "/team/{id}":
     parameters:
       - in: path
         name: id
-        description: ID of team
+        description: Team ID
         required: true
         schema:
           type: integer
           format: int64
     get:
       tags:
-        - teams
-      summary: Fetch team by ID
+        - team
+      summary: Get a team
       responses:
         "200":
-          description: team data
+          description: Success
           content:
-            application/json:
+            "application/json":
               schema:
                 $ref: "#/components/schemas/Team"
     patch:
       tags:
-        - teams
-      summary: Updates team
+        - team
+      summary: Update a team
       requestBody:
         content:
-          application/json:
+          "application/json":
             schema:
               $ref: "#/components/schemas/Team"
-        description: Data
+        required: true
       responses:
         "200":
           description: Success
     delete:
       tags:
-        - teams
-      summary: Deletes a team
+        - team
+      summary: Delete a team
       responses:
         "200":
           description: Success
-  /users:
-    get:
-      tags:
-        - users
-      summary: Fetch all users
-      responses:
-        "200":
-          description: Success
-  "/users/{username}":
-    parameters:
-      - in: path
-        name: username
-        description: The name that needs to be fetched.
-        required: true
-        schema:
-          type: string
-    get:
-      tags:
-        - users
-      summary: Get user by user name
-      responses:
-        "200":
-          description: Success
-          content:
-            application/xml:
-              schema:
-                $ref: "#/components/schemas/User"
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
-  "/users/{username}/teams":
-    parameters:
-      - name: username
-        in: path
-        description: The name that needs to be fetched.
-        required: true
-        schema:
-          type: string
-    get:
-      tags:
-        - users
-      summary: Get team by username
-      responses:
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
-  /products:
-    get:
-      tags:
-        - products
-      responses:
-        "200":
-          description: Success
+  "/competition":
     post:
       tags:
-        - products
+        - competition
+      summary: Create a competition
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/Competition"
+        required: true
       responses:
         "200":
           description: Success
-  "/products/{id}":
+          content:
+            "application/json":
+              schema:
+                type: integer
+                format: int64
+  "/competition/all":
+    get:
+      tags:
+        - competition
+      summary: Get all competitions
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
+  "/competition/{id}":
     parameters:
       - in: path
         name: id
-        description: ID of product
+        description: Competition ID
         required: true
         schema:
           type: integer
           format: int64
     get:
       tags:
-        - products
+        - competition
+      summary: Get a competition
       responses:
         "200":
           description: Success
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/Competition"
     patch:
       tags:
-        - products
+        - competition
+      summary: Update a competition
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/Competition"
+        required: true
       responses:
         "200":
           description: Success
     delete:
       tags:
-        - products
+        - competition
+      summary: Delete a competition
       responses:
         "200":
           description: Success
-  /ticket:
+  "/ticket_type":
+    post:
+      tags:
+        - ticket
+      summary: Create a ticket type
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/TicketType"
+        required: true
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: integer
+                format: int64
+  "/ticket_type/all":
     get:
       tags:
         - ticket
-      summary: "Get all tickets owned by the user"
+      summary: Get all ticket types
       responses:
         "200":
           description: Success
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
+  "/ticket_type/{id}":
+    parameters:
+      - in: path
+        name: id
+        description: Ticket type ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      tags:
+        - ticket
+      summary: Get a ticket type
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/TicketType"
+    patch:
+      tags:
+        - ticket
+      summary: Update a ticket type
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/TicketType"
+        required: true
+      responses:
+        "200":
+          description: Success
+    delete:
+      tags:
+        - ticket
+      summary: Delete a ticket type
+      responses:
+        "200":
+          description: Success
+  "/ticket_type/{id}/tickets":
+    parameters:
+      - in: path
+        name: id
+        description: Ticket type ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      tags:
+        - ticket
+      summary: Get tickets for a ticket type
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
+  "/ticket":
+    post:
+      tags:
+        - ticket
+      summary: Create a ticket
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/Ticket"
+        required: true
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: integer
+                format: int64
+  "/ticket/all":
+    get:
+      tags:
+        - ticket
+      summary: Get all tickets
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
   "/ticket/{id}":
     parameters:
       - in: path
         name: id
-        description: ID of ticket
+        description: Ticket ID
         required: true
         schema:
           type: integer
@@ -502,14 +731,31 @@ paths:
     get:
       tags:
         - ticket
-      summary: "Get a ticket"
+      summary: Get a ticket
       responses:
         "200":
           description: Success
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/Ticket"
     patch:
       tags:
         - ticket
-      summary: "Change a ticket"
+      summary: Update a ticket
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/Ticket"
+        required: true
+      responses:
+        "200":
+          description: Success
+    delete:
+      tags:
+        - ticket
+      summary: Delete a ticket
       responses:
         "200":
           description: Success
@@ -517,7 +763,7 @@ paths:
     parameters:
       - in: path
         name: id
-        description: ID of ticket
+        description: Ticket ID
         required: true
         schema:
           type: integer
@@ -525,11 +771,57 @@ paths:
     post:
       tags:
         - ticket
-      summary: "Regenerate the activation code for an unassigned ticket"
+      summary: "Regenerate the activation code for a ticket"
       responses:
         "200":
           description: Success
-  /order:
+  "/product":
+    post:
+      tags:
+        - product
+      summary: Create a product
+      responses:
+        "200":
+          description: Success
+  "/product/all":
+    get:
+      tags:
+        - product
+      summary: Get all products
+      responses:
+        "200":
+          description: Success
+  "/product/{id}":
+    parameters:
+      - in: path
+        name: id
+        description: Product ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      tags:
+        - product
+      summary: Get a product
+      responses:
+        "200":
+          description: Success
+    patch:
+      tags:
+        - product
+      summary: Update a product
+      responses:
+        "200":
+          description: Success
+    delete:
+      tags:
+        - product
+      summary: Delete a product
+      responses:
+        "200":
+          description: Success
+  "/order":
     get:
       tags:
         - order
@@ -555,59 +847,87 @@ components:
       type: openIdConnect
       openIdConnectUrl: https://localhost
   schemas:
-    Compo:
+    User:
       type: object
       properties:
         id:
+          type: integer
+          format: uuid
+        username:
           type: string
-        name:
+        email_address:
           type: string
-    Sponsor:
-      type: object
-      properties:
-        id:
+        first_name:
           type: string
-        data:
+        last_name:
           type: string
-    Article:
-      type: object
-      properties:
-        id:
+        birth_date:
           type: string
-        header:
+        street_address:
           type: string
-        body:
+        zip_code:
+          type: string
+        phone_number:
           type: string
     Event:
       type: object
       properties:
         id:
-          type: string
+          type: integer
+          format: int64
         name:
+          type: string
+    TicketType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    Ticket:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        type:
+          $ref: "#/components/schemas/TicketType"
+    Article:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        header:
+          type: string
+        body:
+          type: string
+    Sponsor:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        data:
           type: string
     Team:
       type: object
       properties:
         id:
-          type: string
+          type: integer
+          format: int64
         name:
           type: string
         members:
           type: array
           items:
             $ref: "#/components/schemas/User"
-    User:
+    Competition:
       type: object
       properties:
         id:
-          type: string
-        username:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        email:
-          type: string
-        phone:
+          type: integer
+          format: int64
+        name:
           type: string
