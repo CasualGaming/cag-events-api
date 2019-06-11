@@ -25,18 +25,15 @@ paths:
               schema:
                 type: array
                 items:
-                  type: integer
-                  format: uuid
-
-  "/user/{uuid}":
+                  type: string
+  "/user/{username}":
     parameters:
       - in: path
-        name: uuid
-        description: User UUID
+        name: username
+        description: Username
         required: true
         schema:
           type: string
-          format: uuid
     get:
       tags:
         - user
@@ -48,15 +45,14 @@ paths:
             "application/json":
               schema:
                 $ref: "#/components/schemas/User"
-  "/user/{uuid}/teams":
+  "/user/{username}/teams":
     parameters:
-      - name: uuid
+      - name: username
         in: path
-        description: User UUID
+        description: Username
         required: true
         schema:
           type: string
-          format: uuid
     get:
       tags:
         - user
@@ -70,15 +66,14 @@ paths:
               schema:
                 type: integer
                 format: int64
-  "/user/{uuid}/tickets":
+  "/user/{username}/tickets":
     parameters:
-      - name: uuid
+      - name: username
         in: path
-        description: User UUID
+        description: Username
         required: true
         schema:
           type: string
-          format: uuid
     get:
       tags:
         - user
@@ -852,7 +847,7 @@ components:
       properties:
         id:
           type: integer
-          format: uuid
+          format: id
         username:
           type: string
         email_address:
@@ -865,7 +860,7 @@ components:
           type: string
         street_address:
           type: string
-        zip_code:
+        postal_code:
           type: string
         phone_number:
           type: string
