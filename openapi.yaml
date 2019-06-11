@@ -45,6 +45,25 @@ paths:
             "application/json":
               schema:
                 $ref: "#/components/schemas/User"
+  "/user/{username}/public":
+    parameters:
+      - in: path
+        name: username
+        description: Username
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - user
+      summary: Get public details about a user
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/User"
   "/user/{username}/teams":
     parameters:
       - name: username
