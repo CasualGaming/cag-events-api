@@ -845,9 +845,6 @@ components:
     User:
       type: object
       properties:
-        id:
-          type: integer
-          format: id
         username:
           type: string
         email_address:
