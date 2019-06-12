@@ -12,7 +12,7 @@ info:
     email: dev@casualgaming.no
 
 paths:
-  "/user/all":
+  "/user":
     get:
       tags:
         - user
@@ -107,6 +107,20 @@ paths:
                 type: integer
                 format: int64
   "/event":
+    get:
+      tags:
+        - event
+      summary: Get all events
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
     post:
       tags:
         - event
@@ -125,21 +139,6 @@ paths:
               schema:
                 type: integer
                 format: int64
-  "/event/all":
-    get:
-      tags:
-        - event
-      summary: Get all events
-      responses:
-        "200":
-          description: Success
-          content:
-            "application/json":
-              schema:
-                type: array
-                items:
-                  type: integer
-                  format: int64
   "/event/current":
     get:
       tags:
@@ -307,6 +306,20 @@ paths:
                   type: integer
                   format: int64
   "/article":
+    get:
+      tags:
+        - article
+      summary: Get all articles
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
     post:
       tags:
         - article
@@ -325,21 +338,6 @@ paths:
               schema:
                 type: integer
                 format: int64
-  "/article/all":
-    get:
-      tags:
-        - article
-      summary: Get all articles
-      responses:
-        "200":
-          description: Success
-          content:
-            "application/json":
-              schema:
-                type: array
-                items:
-                  type: integer
-                  format: int64
   "/article/{id}":
     parameters:
       - in: path
@@ -381,6 +379,20 @@ paths:
         "200":
           description: Success
   "/sponsor":
+    get:
+      tags:
+        - sponsor
+      summary: Get all sponsors
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
     post:
       tags:
         - sponsor
@@ -399,21 +411,6 @@ paths:
               schema:
                 type: integer
                 format: int64
-  "/sponsor/all":
-    get:
-      tags:
-        - sponsor
-      summary: Get all sponsors
-      responses:
-        "200":
-          description: Success
-          content:
-            "application/json":
-              schema:
-                type: array
-                items:
-                  type: integer
-                  format: int64
   "/sponsor/{id}":
     parameters:
       - in: path
@@ -455,6 +452,20 @@ paths:
         "200":
           description: Success
   "/team":
+    get:
+      tags:
+        - team
+      summary: Get all teams
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
     post:
       tags:
         - team
@@ -473,21 +484,6 @@ paths:
               schema:
                 type: integer
                 format: int64
-  "/team/all":
-    get:
-      tags:
-        - team
-      summary: Get all teams
-      responses:
-        "200":
-          description: Success
-          content:
-            "application/json":
-              schema:
-                type: array
-                items:
-                  type: integer
-                  format: int64
   "/team/{id}":
     parameters:
       - in: path
@@ -529,6 +525,20 @@ paths:
         "200":
           description: Success
   "/competition":
+    get:
+      tags:
+        - competition
+      summary: Get all competitions
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
     post:
       tags:
         - competition
@@ -547,21 +557,6 @@ paths:
               schema:
                 type: integer
                 format: int64
-  "/competition/all":
-    get:
-      tags:
-        - competition
-      summary: Get all competitions
-      responses:
-        "200":
-          description: Success
-          content:
-            "application/json":
-              schema:
-                type: array
-                items:
-                  type: integer
-                  format: int64
   "/competition/{id}":
     parameters:
       - in: path
@@ -603,6 +598,20 @@ paths:
         "200":
           description: Success
   "/ticket_type":
+    get:
+      tags:
+        - ticket
+      summary: Get all ticket types
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
     post:
       tags:
         - ticket
@@ -621,21 +630,6 @@ paths:
               schema:
                 type: integer
                 format: int64
-  "/ticket_type/all":
-    get:
-      tags:
-        - ticket
-      summary: Get all ticket types
-      responses:
-        "200":
-          description: Success
-          content:
-            "application/json":
-              schema:
-                type: array
-                items:
-                  type: integer
-                  format: int64
   "/ticket_type/{id}":
     parameters:
       - in: path
@@ -700,6 +694,20 @@ paths:
                   type: integer
                   format: int64
   "/ticket":
+    get:
+      tags:
+        - ticket
+      summary: Get all tickets
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
     post:
       tags:
         - ticket
@@ -718,21 +726,6 @@ paths:
               schema:
                 type: integer
                 format: int64
-  "/ticket/all":
-    get:
-      tags:
-        - ticket
-      summary: Get all tickets
-      responses:
-        "200":
-          description: Success
-          content:
-            "application/json":
-              schema:
-                type: array
-                items:
-                  type: integer
-                  format: int64
   "/ticket/{id}":
     parameters:
       - in: path
@@ -790,18 +783,17 @@ paths:
         "200":
           description: Success
   "/product":
-    post:
-      tags:
-        - product
-      summary: Create a product
-      responses:
-        "200":
-          description: Success
-  "/product/all":
     get:
       tags:
         - product
       summary: Get all products
+      responses:
+        "200":
+          description: Success
+    post:
+      tags:
+        - product
+      summary: Create a product
       responses:
         "200":
           description: Success
