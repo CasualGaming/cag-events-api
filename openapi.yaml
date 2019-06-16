@@ -12,51 +12,81 @@ info:
     email: dev@casualgaming.no
 
 paths:
-  "/user":
+  "/user/users":
     get:
-      tags:
-        - user
       summary: Get all users
+      tags:
+        - user
+      parameters:
+        - in: query
+          name: limit
+          description: Max amount of results to return
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: offset
+          description: Which result to start returning at (related to limit)
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: fields
+          description: Which user fields to include
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: username
+          description: Case-insensitive username
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: partial_username
+          description: Partial, case-insensitive username
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: member
+          description: If the user is or is not currently a member
+          required: false
+          schema:
+            type: boolean
       responses:
         "200":
           description: Success
           content:
             "application/json":
               schema:
-                type: array
-                items:
-                  type: string
-  "/user/{username}":
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                  previous:
+                    type: string
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/User"
+  "/user/users/{id}":
     parameters:
       - in: path
-        name: username
-        description: Username
+        name: id
+        description: User ID
         required: true
         schema:
-          type: string
+          type: integer
+          format: int64
     get:
-      tags:
-        - user
       summary: Get a user
-      responses:
-        "200":
-          description: Success
-          content:
-            "application/json":
-              schema:
-                $ref: "#/components/schemas/User"
-  "/user/{username}/public":
-    parameters:
-      - in: path
-        name: username
-        description: Username
-        required: true
-        schema:
-          type: string
-    get:
       tags:
         - user
-      summary: Get public details about a user
       responses:
         "200":
           description: Success
@@ -64,67 +94,170 @@ paths:
             "application/json":
               schema:
                 $ref: "#/components/schemas/User"
-  "/user/{username}/teams":
+  "/user/users/{id}/public_profile":
     parameters:
-      - name: username
-        in: path
-        description: Username
+      - in: path
+        name: id
+        description: User ID
         required: true
         schema:
-          type: string
+          type: integer
+          format: int64
     get:
+      summary: Get the public profile fields of a user
+      tags:
+        - user
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/User"
+  "/user/users/{id}/teams":
+    parameters:
+      - in: path
+        name: id
+        description: User ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      summary: Get all teams for a user
       tags:
         - user
         - team
-      summary: Get all teams for a user
+      parameters:
+        - in: query
+          name: limit
+          description: Max amount of results to return
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: offset
+          description: Which result to start returning at (related to limit)
+          required: false
+          schema:
+            type: integer
+            format: int64
       responses:
         "200":
           description: Success
           content:
             "application/json":
               schema:
-                type: integer
-                format: int64
-  "/user/{username}/tickets":
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                  previous:
+                    type: string
+                  results:
+                    type: array
+                    items:
+                      type: integer
+                      format: int64
+  "/user/users/{id}/tickets":
     parameters:
-      - name: username
-        in: path
-        description: Username
+      - in: path
+        name: id
+        description: User ID
         required: true
         schema:
-          type: string
+          type: integer
+          format: int64
     get:
+      summary: Get all tickets for a user
       tags:
         - user
         - ticket
-      summary: Get all tickets for a user
+      parameters:
+        - in: query
+          name: limit
+          description: Max amount of results to return
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: offset
+          description: Which result to start returning at (related to limit)
+          required: false
+          schema:
+            type: integer
+            format: int64
       responses:
         "200":
           description: Success
           content:
             "application/json":
               schema:
-                type: integer
-                format: int64
-  "/event":
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                  previous:
+                    type: string
+                  results:
+                    type: array
+                    items:
+                      type: integer
+                      format: int64
+  "/event/events":
     get:
+      summary: Get all events
       tags:
         - event
-      summary: Get all events
+      parameters:
+        - in: query
+          name: time_status
+          description: If upcoming, active and/or over events should be included
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: limit
+          description: Max amount of results to return
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: offset
+          description: Which result to start returning at (related to limit)
+          required: false
+          schema:
+            type: integer
+            format: int64
       responses:
         "200":
           description: Success
           content:
             "application/json":
               schema:
-                type: array
-                items:
-                  type: integer
-                  format: int64
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                  previous:
+                    type: string
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Event"
     post:
+      summary: Create an event
       tags:
         - event
-      summary: Create an event
       requestBody:
         content:
           "application/json":
@@ -139,37 +272,7 @@ paths:
               schema:
                 type: integer
                 format: int64
-  "/event/current":
-    get:
-      tags:
-        - event
-      summary: Get current events
-      responses:
-        "200":
-          description: Success
-          content:
-            "application/json":
-              schema:
-                type: array
-                items:
-                  type: integer
-                  format: int64
-  "/event/upcoming":
-    get:
-      tags:
-        - event
-      summary: Get upcoming events
-      responses:
-        "200":
-          description: Success
-          content:
-            "application/json":
-              schema:
-                type: array
-                items:
-                  type: integer
-                  format: int64
-  "/event/{id}":
+  "/event/events/{id}":
     parameters:
       - in: path
         name: id
@@ -179,9 +282,9 @@ paths:
           type: integer
           format: int64
     get:
+      summary: Get an event
       tags:
         - event
-      summary: Get an event
       responses:
         "200":
           description: Success
@@ -190,9 +293,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/Event"
     patch:
+      summary: Update an event
       tags:
         - event
-      summary: Update an event
       requestBody:
         content:
           "application/json":
@@ -203,13 +306,13 @@ paths:
         "200":
           description: Success
     delete:
+      summary: Delete an event
       tags:
         - event
-      summary: Delete an event
       responses:
         "200":
           description: Success
-  "/event/{id}/competitions":
+  "/event/events/{id}/participants":
     parameters:
       - in: path
         name: id
@@ -219,21 +322,93 @@ paths:
           type: integer
           format: int64
     get:
+      summary: Get all participating users for an event
+      tags:
+        - event
+        - user
+      parameters:
+        - in: query
+          name: limit
+          description: Max amount of results to return
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: offset
+          description: Which result to start returning at (related to limit)
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                  previous:
+                    type: string
+                  results:
+                    type: array
+                    items:
+                      type: integer
+                      format: int64
+  "/event/events/{id}/competitions":
+    parameters:
+      - in: path
+        name: id
+        description: Event ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      summary: Get all competitions for an event
       tags:
         - event
         - competition
-      summary: Get all competitions for an event
+      parameters:
+        - in: query
+          name: limit
+          description: Max amount of results to return
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: offset
+          description: Which result to start returning at (related to limit)
+          required: false
+          schema:
+            type: integer
+            format: int64
       responses:
         "200":
           description: Success
           content:
             "application/json":
               schema:
-                type: array
-                items:
-                  type: integer
-                  format: int64
-  "/event/{id}/articles":
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                  previous:
+                    type: string
+                  results:
+                    type: array
+                    items:
+                      type: integer
+                      format: int64
+  "/event/events/{id}/articles":
     parameters:
       - in: path
         name: id
@@ -243,21 +418,45 @@ paths:
           type: integer
           format: int64
     get:
+      summary: Get all articles for an event
       tags:
         - event
         - article
-      summary: Get all articles for an event
+      parameters:
+        - in: query
+          name: limit
+          description: Max amount of results to return
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: offset
+          description: Which result to start returning at (related to limit)
+          required: false
+          schema:
+            type: integer
+            format: int64
       responses:
         "200":
           description: Success
           content:
             "application/json":
               schema:
-                type: array
-                items:
-                  type: integer
-                  format: int64
-  "/event/{id}/products":
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                  previous:
+                    type: string
+                  results:
+                    type: array
+                    items:
+                      type: integer
+                      format: int64
+  "/event/events/{id}/products":
     parameters:
       - in: path
         name: id
@@ -267,21 +466,45 @@ paths:
           type: integer
           format: int64
     get:
+      summary: Get all products for an event
       tags:
         - event
         - product
-      summary: Get all products for an event
+      parameters:
+        - in: query
+          name: limit
+          description: Max amount of results to return
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: offset
+          description: Which result to start returning at (related to limit)
+          required: false
+          schema:
+            type: integer
+            format: int64
       responses:
         "200":
           description: Success
           content:
             "application/json":
               schema:
-                type: array
-                items:
-                  type: integer
-                  format: int64
-  "/event/{id}/sponsors":
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                  previous:
+                    type: string
+                  results:
+                    type: array
+                    items:
+                      type: integer
+                      format: int64
+  "/event/events/{id}/sponsors":
     parameters:
       - in: path
         name: id
@@ -291,39 +514,86 @@ paths:
           type: integer
           format: int64
     get:
+      summary: Get all sponsors for an event
       tags:
         - event
         - sponsor
-      summary: Get all sponsors for an event
+      parameters:
+        - in: query
+          name: limit
+          description: Max amount of results to return
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: offset
+          description: Which result to start returning at (related to limit)
+          required: false
+          schema:
+            type: integer
+            format: int64
       responses:
         "200":
           description: Success
           content:
             "application/json":
               schema:
-                type: array
-                items:
-                  type: integer
-                  format: int64
-  "/article":
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                  previous:
+                    type: string
+                  results:
+                    type: array
+                    items:
+                      type: integer
+                      format: int64
+  "/article/articles":
     get:
+      summary: Get all articles
       tags:
         - article
-      summary: Get all articles
+      parameters:
+        - in: query
+          name: limit
+          description: Max amount of results to return
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: offset
+          description: Which result to start returning at (related to limit)
+          required: false
+          schema:
+            type: integer
+            format: int64
       responses:
         "200":
           description: Success
           content:
             "application/json":
               schema:
-                type: array
-                items:
-                  type: integer
-                  format: int64
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                  previous:
+                    type: string
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Article"
     post:
+      summary: Create an article
       tags:
         - article
-      summary: Create an article
       requestBody:
         content:
           "application/json":
@@ -338,7 +608,7 @@ paths:
               schema:
                 type: integer
                 format: int64
-  "/article/{id}":
+  "/article/articles/{id}":
     parameters:
       - in: path
         name: id
@@ -348,9 +618,9 @@ paths:
           type: integer
           format: int64
     get:
+      summary: Get an article
       tags:
         - article
-      summary: Get an article
       responses:
         "200":
           description: Success
@@ -359,9 +629,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/Article"
     patch:
+      summary: Update an article
       tags:
         - article
-      summary: Update an article
       requestBody:
         content:
           "application/json":
@@ -372,31 +642,54 @@ paths:
         "200":
           description: Success
     delete:
+      summary: Delete an article
       tags:
         - article
-      summary: Delete an article
       responses:
         "200":
           description: Success
-  "/sponsor":
+  "/sponsor/sponsors":
     get:
+      summary: Get all sponsors
       tags:
         - sponsor
-      summary: Get all sponsors
+      parameters:
+        - in: query
+          name: limit
+          description: Max amount of results to return
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: offset
+          description: Which result to start returning at (related to limit)
+          required: false
+          schema:
+            type: integer
+            format: int64
       responses:
         "200":
           description: Success
           content:
             "application/json":
               schema:
-                type: array
-                items:
-                  type: integer
-                  format: int64
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                  previous:
+                    type: string
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Sponsor"
     post:
+      summary: Create a sponsor
       tags:
         - sponsor
-      summary: Create a sponsor
       requestBody:
         content:
           "application/json":
@@ -411,7 +704,7 @@ paths:
               schema:
                 type: integer
                 format: int64
-  "/sponsor/{id}":
+  "/sponsor/sponsors/{id}":
     parameters:
       - in: path
         name: id
@@ -421,9 +714,9 @@ paths:
           type: integer
           format: int64
     get:
+      summary: Get a sponsor
       tags:
         - sponsor
-      summary: Get a sponsor
       responses:
         "200":
           description: Success
@@ -432,9 +725,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/Sponsor"
     patch:
+      summary: Update a sponsor
       tags:
         - sponsor
-      summary: Update a sponsor
       requestBody:
         content:
           "application/json":
@@ -445,31 +738,54 @@ paths:
         "200":
           description: Success
     delete:
+      summary: Delete a sponsor
       tags:
         - sponsor
-      summary: Delete a sponsor
       responses:
         "200":
           description: Success
-  "/team":
+  "/team/teams":
     get:
+      summary: Get all teams
       tags:
         - team
-      summary: Get all teams
+      parameters:
+        - in: query
+          name: limit
+          description: Max amount of results to return
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: offset
+          description: Which result to start returning at (related to limit)
+          required: false
+          schema:
+            type: integer
+            format: int64
       responses:
         "200":
           description: Success
           content:
             "application/json":
               schema:
-                type: array
-                items:
-                  type: integer
-                  format: int64
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                  previous:
+                    type: string
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Team"
     post:
+      summary: Create a team
       tags:
         - team
-      summary: Create a team
       requestBody:
         content:
           "application/json":
@@ -484,7 +800,7 @@ paths:
               schema:
                 type: integer
                 format: int64
-  "/team/{id}":
+  "/team/teams/{id}":
     parameters:
       - in: path
         name: id
@@ -494,9 +810,9 @@ paths:
           type: integer
           format: int64
     get:
+      summary: Get a team
       tags:
         - team
-      summary: Get a team
       responses:
         "200":
           description: Success
@@ -505,9 +821,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/Team"
     patch:
+      summary: Update a team
       tags:
         - team
-      summary: Update a team
       requestBody:
         content:
           "application/json":
@@ -518,31 +834,54 @@ paths:
         "200":
           description: Success
     delete:
+      summary: Delete a team
       tags:
         - team
-      summary: Delete a team
       responses:
         "200":
           description: Success
-  "/competition":
+  "/competition/competitions":
     get:
+      summary: Get all competitions
       tags:
         - competition
-      summary: Get all competitions
+      parameters:
+        - in: query
+          name: limit
+          description: Max amount of results to return
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: offset
+          description: Which result to start returning at (related to limit)
+          required: false
+          schema:
+            type: integer
+            format: int64
       responses:
         "200":
           description: Success
           content:
             "application/json":
               schema:
-                type: array
-                items:
-                  type: integer
-                  format: int64
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                  previous:
+                    type: string
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Competition"
     post:
+      summary: Create a competition
       tags:
         - competition
-      summary: Create a competition
       requestBody:
         content:
           "application/json":
@@ -557,7 +896,7 @@ paths:
               schema:
                 type: integer
                 format: int64
-  "/competition/{id}":
+  "/competition/competitions/{id}":
     parameters:
       - in: path
         name: id
@@ -567,9 +906,9 @@ paths:
           type: integer
           format: int64
     get:
+      summary: Get a competition
       tags:
         - competition
-      summary: Get a competition
       responses:
         "200":
           description: Success
@@ -578,9 +917,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/Competition"
     patch:
+      summary: Update a competition
       tags:
         - competition
-      summary: Update a competition
       requestBody:
         content:
           "application/json":
@@ -591,31 +930,54 @@ paths:
         "200":
           description: Success
     delete:
+      summary: Delete a competition
       tags:
         - competition
-      summary: Delete a competition
       responses:
         "200":
           description: Success
-  "/ticket_type":
+  "/ticket/types":
     get:
+      summary: Get all ticket types
       tags:
         - ticket
-      summary: Get all ticket types
+      parameters:
+        - in: query
+          name: limit
+          description: Max amount of results to return
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: offset
+          description: Which result to start returning at (related to limit)
+          required: false
+          schema:
+            type: integer
+            format: int64
       responses:
         "200":
           description: Success
           content:
             "application/json":
               schema:
-                type: array
-                items:
-                  type: integer
-                  format: int64
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                  previous:
+                    type: string
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/TicketType"
     post:
+      summary: Create a ticket type
       tags:
         - ticket
-      summary: Create a ticket type
       requestBody:
         content:
           "application/json":
@@ -630,7 +992,7 @@ paths:
               schema:
                 type: integer
                 format: int64
-  "/ticket_type/{id}":
+  "/ticket/types/{id}":
     parameters:
       - in: path
         name: id
@@ -640,9 +1002,9 @@ paths:
           type: integer
           format: int64
     get:
+      summary: Get a ticket type
       tags:
         - ticket
-      summary: Get a ticket type
       responses:
         "200":
           description: Success
@@ -651,9 +1013,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/TicketType"
     patch:
+      summary: Update a ticket type
       tags:
         - ticket
-      summary: Update a ticket type
       requestBody:
         content:
           "application/json":
@@ -664,54 +1026,54 @@ paths:
         "200":
           description: Success
     delete:
-      tags:
-        - ticket
       summary: Delete a ticket type
+      tags:
+        - ticket
       responses:
         "200":
           description: Success
-  "/ticket_type/{id}/tickets":
-    parameters:
-      - in: path
-        name: id
-        description: Ticket type ID
-        required: true
-        schema:
-          type: integer
-          format: int64
+  "/ticket/tickets":
     get:
-      tags:
-        - ticket
-      summary: Get tickets for a ticket type
-      responses:
-        "200":
-          description: Success
-          content:
-            "application/json":
-              schema:
-                type: array
-                items:
-                  type: integer
-                  format: int64
-  "/ticket":
-    get:
-      tags:
-        - ticket
       summary: Get all tickets
+      tags:
+        - ticket
+      parameters:
+        - in: query
+          name: limit
+          description: Max amount of results to return
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: offset
+          description: Which result to start returning at (related to limit)
+          required: false
+          schema:
+            type: integer
+            format: int64
       responses:
         "200":
           description: Success
           content:
             "application/json":
               schema:
-                type: array
-                items:
-                  type: integer
-                  format: int64
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                  previous:
+                    type: string
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Ticket"
     post:
+      summary: Create a ticket
       tags:
         - ticket
-      summary: Create a ticket
       requestBody:
         content:
           "application/json":
@@ -726,7 +1088,7 @@ paths:
               schema:
                 type: integer
                 format: int64
-  "/ticket/{id}":
+  "/ticket/tickets/{id}":
     parameters:
       - in: path
         name: id
@@ -736,9 +1098,9 @@ paths:
           type: integer
           format: int64
     get:
+      summary: Get a ticket
       tags:
         - ticket
-      summary: Get a ticket
       responses:
         "200":
           description: Success
@@ -747,9 +1109,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/Ticket"
     patch:
+      summary: Update a ticket
       tags:
         - ticket
-      summary: Update a ticket
       requestBody:
         content:
           "application/json":
@@ -760,13 +1122,13 @@ paths:
         "200":
           description: Success
     delete:
+      summary: Delete a ticket
       tags:
         - ticket
-      summary: Delete a ticket
       responses:
         "200":
           description: Success
-  "/ticket/{id}/regen-activation-code":
+  "/ticket/tickets/{id}/regen-activation-code":
     parameters:
       - in: path
         name: id
@@ -776,28 +1138,69 @@ paths:
           type: integer
           format: int64
     post:
+      summary: "Regenerate the activation code for a ticket"
       tags:
         - ticket
-      summary: "Regenerate the activation code for a ticket"
       responses:
         "200":
           description: Success
-  "/product":
+  "/store/products":
     get:
-      tags:
-        - product
       summary: Get all products
-      responses:
-        "200":
-          description: Success
-    post:
       tags:
-        - product
-      summary: Create a product
+        - store
+      parameters:
+        - in: query
+          name: limit
+          description: Max amount of results to return
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: offset
+          description: Which result to start returning at (related to limit)
+          required: false
+          schema:
+            type: integer
+            format: int64
       responses:
         "200":
           description: Success
-  "/product/{id}":
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                  previous:
+                    type: string
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Product"
+    post:
+      summary: Create a product
+      tags:
+        - store
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/Product"
+        required: true
+      responses:
+        "200":
+          description: Success
+          content:
+            "application/json":
+              schema:
+                type: integer
+                format: int64
+  "/store/products/{id}":
     parameters:
       - in: path
         name: id
@@ -807,62 +1210,115 @@ paths:
           type: integer
           format: int64
     get:
-      tags:
-        - product
       summary: Get a product
+      tags:
+        - store
       responses:
         "200":
           description: Success
     patch:
-      tags:
-        - product
       summary: Update a product
+      tags:
+        - store
       responses:
         "200":
           description: Success
     delete:
-      tags:
-        - product
       summary: Delete a product
+      tags:
+        - store
       responses:
         "200":
           description: Success
-  "/order":
+  "/store/orders":
     get:
+      summary: Get an order
       tags:
-        - order
+        - store
+      parameters:
+        - in: query
+          name: limit
+          description: Max amount of results to return
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: offset
+          description: Which result to start returning at (related to limit)
+          required: false
+          schema:
+            type: integer
+            format: int64
       responses:
         "200":
           description: Success
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                  previous:
+                    type: string
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Order"
     post:
+      summary: Create an order
       tags:
-        - order
+        - store
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/Order"
+        required: true
       responses:
         "200":
           description: Success
+          content:
+            "application/json":
+              schema:
+                type: integer
+                format: int64
     patch:
+      summary: Update an order
       tags:
-        - order
+        - store
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/Order"
+        required: true
       responses:
         "200":
           description: Success
 
 components:
-  securitySchemes:
-    oidc:
-      type: openIdConnect
-      openIdConnectUrl: https://localhost
   schemas:
     User:
       type: object
       properties:
+        id:
+          type: integer
+          format: int64
+        subject_id:
+          type: string
         username:
           type: string
-        email_address:
+        pretty_username:
           type: string
         first_name:
           type: string
         last_name:
+          type: string
+        email_address:
           type: string
         birth_date:
           type: string
@@ -933,4 +1389,20 @@ components:
           type: integer
           format: int64
         name:
+          type: string
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        is_refunded:
+          type: boolean
+        refund_reason:
           type: string
