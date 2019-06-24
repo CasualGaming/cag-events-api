@@ -15,7 +15,8 @@ paths:
   "/users":
     get:
       summary: Get all users
-      description: Includes only user fields the current user has permission to view.
+      description: >-
+        Includes only user fields the current user has permission to view.
       tags:
         - user
       parameters:
