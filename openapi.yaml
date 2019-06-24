@@ -12,9 +12,10 @@ info:
     email: dev@casualgaming.no
 
 paths:
-  "/user/users":
+  "/users":
     get:
       summary: Get all users
+      description: Includes only user fields the current user has permission to view.
       tags:
         - user
       parameters:
@@ -39,12 +40,6 @@ paths:
           schema:
             type: string
         - in: query
-          name: username
-          description: Case-insensitive username
-          required: false
-          schema:
-            type: string
-        - in: query
           name: partial_username
           description: Partial, case-insensitive username
           required: false
@@ -56,6 +51,12 @@ paths:
           required: false
           schema:
             type: boolean
+        - in: query
+          name: groups
+          description: Which groups the user is member of
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: Success
@@ -74,17 +75,17 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/User"
-  "/user/users/{id}":
+  "/users/{username}":
     parameters:
       - in: path
-        name: id
-        description: User ID
+        name: username
+        description: Username
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
     get:
       summary: Get a user
+      description: Includes only fields the current user has permission to view.
       tags:
         - user
       responses:
@@ -94,35 +95,14 @@ paths:
             "application/json":
               schema:
                 $ref: "#/components/schemas/User"
-  "/user/users/{id}/public_profile":
+  "/users/{username}/teams":
     parameters:
       - in: path
-        name: id
-        description: User ID
+        name: username
+        description: Username
         required: true
         schema:
-          type: integer
-          format: int64
-    get:
-      summary: Get the public profile fields of a user
-      tags:
-        - user
-      responses:
-        "200":
-          description: Success
-          content:
-            "application/json":
-              schema:
-                $ref: "#/components/schemas/User"
-  "/user/users/{id}/teams":
-    parameters:
-      - in: path
-        name: id
-        description: User ID
-        required: true
-        schema:
-          type: integer
-          format: int64
+          type: string
     get:
       summary: Get all teams for a user
       tags:
@@ -162,15 +142,14 @@ paths:
                     items:
                       type: integer
                       format: int64
-  "/user/users/{id}/tickets":
+  "/users/{username}/tickets":
     parameters:
       - in: path
-        name: id
-        description: User ID
+        name: username
+        description: Username
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
     get:
       summary: Get all tickets for a user
       tags:
@@ -210,7 +189,7 @@ paths:
                     items:
                       type: integer
                       format: int64
-  "/event/events":
+  "/events":
     get:
       summary: Get all events
       tags:
@@ -272,7 +251,7 @@ paths:
               schema:
                 type: integer
                 format: int64
-  "/event/events/{id}":
+  "/events/{id}":
     parameters:
       - in: path
         name: id
@@ -312,7 +291,7 @@ paths:
       responses:
         "200":
           description: Success
-  "/event/events/{id}/participants":
+  "/events/{id}/participants":
     parameters:
       - in: path
         name: id
@@ -360,7 +339,7 @@ paths:
                     items:
                       type: integer
                       format: int64
-  "/event/events/{id}/competitions":
+  "/events/{id}/competitions":
     parameters:
       - in: path
         name: id
@@ -408,7 +387,7 @@ paths:
                     items:
                       type: integer
                       format: int64
-  "/event/events/{id}/articles":
+  "/events/{id}/articles":
     parameters:
       - in: path
         name: id
@@ -456,7 +435,7 @@ paths:
                     items:
                       type: integer
                       format: int64
-  "/event/events/{id}/products":
+  "/events/{id}/products":
     parameters:
       - in: path
         name: id
@@ -469,7 +448,7 @@ paths:
       summary: Get all products for an event
       tags:
         - event
-        - product
+        - store
       parameters:
         - in: query
           name: limit
@@ -504,7 +483,7 @@ paths:
                     items:
                       type: integer
                       format: int64
-  "/event/events/{id}/sponsors":
+  "/events/{id}/sponsors":
     parameters:
       - in: path
         name: id
@@ -552,7 +531,7 @@ paths:
                     items:
                       type: integer
                       format: int64
-  "/article/articles":
+  "/articles":
     get:
       summary: Get all articles
       tags:
@@ -608,7 +587,7 @@ paths:
               schema:
                 type: integer
                 format: int64
-  "/article/articles/{id}":
+  "/articles/{id}":
     parameters:
       - in: path
         name: id
@@ -648,7 +627,7 @@ paths:
       responses:
         "200":
           description: Success
-  "/sponsor/sponsors":
+  "/sponsors":
     get:
       summary: Get all sponsors
       tags:
@@ -704,7 +683,7 @@ paths:
               schema:
                 type: integer
                 format: int64
-  "/sponsor/sponsors/{id}":
+  "/sponsors/{id}":
     parameters:
       - in: path
         name: id
@@ -744,7 +723,7 @@ paths:
       responses:
         "200":
           description: Success
-  "/team/teams":
+  "/teams":
     get:
       summary: Get all teams
       tags:
@@ -800,7 +779,7 @@ paths:
               schema:
                 type: integer
                 format: int64
-  "/team/teams/{id}":
+  "/teams/{id}":
     parameters:
       - in: path
         name: id
@@ -840,7 +819,7 @@ paths:
       responses:
         "200":
           description: Success
-  "/competition/competitions":
+  "/competitions":
     get:
       summary: Get all competitions
       tags:
@@ -896,7 +875,7 @@ paths:
               schema:
                 type: integer
                 format: int64
-  "/competition/competitions/{id}":
+  "/competitions/{id}":
     parameters:
       - in: path
         name: id
@@ -936,7 +915,7 @@ paths:
       responses:
         "200":
           description: Success
-  "/ticket/types":
+  "/ticket_types":
     get:
       summary: Get all ticket types
       tags:
@@ -992,7 +971,7 @@ paths:
               schema:
                 type: integer
                 format: int64
-  "/ticket/types/{id}":
+  "/ticket_types/{id}":
     parameters:
       - in: path
         name: id
@@ -1032,7 +1011,7 @@ paths:
       responses:
         "200":
           description: Success
-  "/ticket/tickets":
+  "/tickets":
     get:
       summary: Get all tickets
       tags:
@@ -1088,7 +1067,7 @@ paths:
               schema:
                 type: integer
                 format: int64
-  "/ticket/tickets/{id}":
+  "/tickets/{id}":
     parameters:
       - in: path
         name: id
@@ -1128,7 +1107,7 @@ paths:
       responses:
         "200":
           description: Success
-  "/ticket/tickets/{id}/regen-activation-code":
+  "/tickets/{id}/regen-activation-code":
     parameters:
       - in: path
         name: id
@@ -1144,7 +1123,7 @@ paths:
       responses:
         "200":
           description: Success
-  "/store/products":
+  "/store_products":
     get:
       summary: Get all products
       tags:
@@ -1181,7 +1160,7 @@ paths:
                   results:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Product"
+                      $ref: "#/components/schemas/StoreProduct"
     post:
       summary: Create a product
       tags:
@@ -1190,7 +1169,7 @@ paths:
         content:
           "application/json":
             schema:
-              $ref: "#/components/schemas/Product"
+              $ref: "#/components/schemas/StoreProduct"
         required: true
       responses:
         "200":
@@ -1200,11 +1179,11 @@ paths:
               schema:
                 type: integer
                 format: int64
-  "/store/products/{id}":
+  "/store_products/{id}":
     parameters:
       - in: path
         name: id
-        description: Product ID
+        description: Store product ID
         required: true
         schema:
           type: integer
@@ -1230,7 +1209,7 @@ paths:
       responses:
         "200":
           description: Success
-  "/store/orders":
+  "/orders":
     get:
       summary: Get an order
       tags:
@@ -1390,7 +1369,13 @@ components:
           format: int64
         name:
           type: string
-    Product:
+        leader:
+          $ref: "#/components/schemas/User"
+        participants:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+    StoreProduct:
       type: object
       properties:
         id:
