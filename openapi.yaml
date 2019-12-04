@@ -2,7 +2,7 @@
 openapi: 3.0.0
 info:
   title: CaG Events API
-  description: API between CaG Events front-end and back-end.
+  description: API specification for CaG Events back-end.
   version: 1.0.0-SNAPSHOT
   license:
     name: GPLv3
